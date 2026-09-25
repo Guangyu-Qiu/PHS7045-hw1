@@ -36,4 +36,8 @@ inline double Binom::choose(int a, int b) const {
     /static_cast<double>(factorial(b)*factorial(a-b));
 }
 
+inline double dbinom(int k) const{
+    return choose(int n, int k) * std::pow(p, k) * std::pow(1-p, 1-k) 
+}
+
 #endif
