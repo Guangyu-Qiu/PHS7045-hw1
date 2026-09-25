@@ -29,3 +29,5 @@ inline int Binom::factorial(int k) const {
     return k * factorial(k - 1);
   }
 }
+
+#endif
