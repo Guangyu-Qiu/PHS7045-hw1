@@ -30,4 +30,9 @@ inline int Binom::factorial(int k) const {
   }
 }
 
+inline double Binom::choose(double n, double k) const {
+    if (k<0 || n<0 || n < k) return 0;
+    return factorial(k)/(factorial(n)*factorial(n-k))
+}
+
 #endif
