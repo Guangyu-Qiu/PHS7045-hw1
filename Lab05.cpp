@@ -15,4 +15,7 @@ int main() {
     for (int i = 0; i < 10; i++) {
         std::cout << b.dbinom(i) << std::endl;
     }
+    std::cout << "Forth task:" << std::endl;
+    for (int i = 0; i < 10; i++)  b.print(i);
+    
 }
