@@ -41,6 +41,7 @@ inline double Binom::dbinom(int k) const{
 }
 
 inline void Binom::print(int k) const{
+    //P(Y=0 ; n=10, p=0.50) = 0.001
     std::printf("P(Y=%d ; n=%d, p=%.2f) = %.3f\n",
         k, n, p, dbinom(k));
 }
