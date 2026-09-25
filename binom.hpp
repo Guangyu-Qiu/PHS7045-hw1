@@ -1,3 +1,10 @@
+#ifndef BINOM_HPP
+#define BINOM_HPP
+
+#include <iostream>
+#include <cmath>
+#include <cstdio>
+
 class Binom {
 private:
   int n;
@@ -14,3 +21,11 @@ public:
   double dbinom(int k) const;
   void print(int k) const;
 };
+
+inline int Binom::factorial(int k) const {
+  if (k == 0) {
+    return 1;
+  } else {
+    return k * factorial(k - 1);
+  }
+}
