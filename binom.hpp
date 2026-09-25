@@ -37,7 +37,12 @@ inline double Binom::choose(int a, int b) const {
 }
 
 inline double Binom::dbinom(int k) const{
-    return choose(n, k) * std::pow(p, k) * std::pow((1-p), (1-k)); 
+    return choose(n, k) * std::pow(p, k) * std::pow((1-p), (n-k)); 
+}
+
+inline void Binom::print(int k) const{
+    //P(Y=0 ; n=10, p=0.50) = 0.001
+    std::printf("P(Y = ", k,"; n = ",n ,"; p = ",p, " = ", dbinom(k));
 }
 
 #endif
