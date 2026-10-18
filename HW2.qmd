@@ -95,13 +95,16 @@ fun2 <- function(x) {
   apply(x, 2, max)
 }
 
+# following the hint, we found that max.col() can only find the max value of each row, but here we want to know that of columns
+# need to use t()
 fun2alt <- function(x) {
-  # YOUR CODE HERE
+  index <- max.col(t(x)) # index of max value of each column of x(which is row number)
+  x[cbind(index, seq_len(ncol(x)))]
 }
 
 # Benchmarking
 bench::mark(
-  fun2(),
-  fun2alt(), relative = TRUE
+  fun2(x),
+  fun2alt(x), relative = TRUE
 )
 ```
