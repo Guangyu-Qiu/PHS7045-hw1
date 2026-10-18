@@ -55,15 +55,17 @@ fun2 <- function(mat) {
   k <- ncol(mat)
   ans <- mat
   for (i in 1:n) {
-    for (j in 2:k) {
-      ans[i,j] <- mat[i, j] + ans[i, j - 1]
+    for (j in 2:k) { # for each row
+      ans[i,j] <- mat[i, j] + ans[i, j - 1] #cum sum of all previous cells of this row
     }
   }
   ans
 }
 
+# I know cumsum works on list
+# so I have to apply this to each row of matrix
 fun2alt <- function(mat) {
-  # YOUR CODE HERE
+  t(apply(mat, 1, cumsum))
 }
 
 # Use the data with this code
@@ -80,5 +82,26 @@ bench::mark(
 bench::mark(
   fun2(dat),
   fun2alt(dat), relative = TRUE
+)
+```
+
+```{r}
+# Data Generating Process (10 x 10,000 matrix)
+set.seed(1234)
+x <- matrix(rnorm(1e4), nrow=10)
+
+# Find each column's max value
+fun2 <- function(x) {
+  apply(x, 2, max)
+}
+
+fun2alt <- function(x) {
+  # YOUR CODE HERE
+}
+
+# Benchmarking
+bench::mark(
+  fun2(),
+  fun2alt(), relative = TRUE
 )
 ```
