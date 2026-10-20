@@ -4,7 +4,7 @@ format: pdf
 editor: visual
 ---
 
-## Part 1: Vectorizing code
+## Part 1: Vectorizing code 
 
 ```{r}
 # Question 1.a
