@@ -113,4 +113,22 @@ bench::mark(
 
 ```{r}
 Rcpp::sourceCpp("scale_free.cpp")
+
+set.seed(3312)
+g <- scale_free(n = 500, m = 2)
 ```
+
+```{r}
+## Visualizing the degree distribution
+library(ggplot2)
+data.frame(degree = colSums(g)) |>
+  ggplot(aes(degree)) +
+  geom_histogram() +
+  scale_x_log10() +
+  labs(
+    x = "Degree\n(log10 scale)",
+    y = "Count"
+  )
+```
+
+## AI Disclosure: I first used AI to interpret the assignment requirements and learn the necessary concepts (without explicitly targeting at the questions). I then wrote my own first attempt for both parts and used AI to help debug my code.
