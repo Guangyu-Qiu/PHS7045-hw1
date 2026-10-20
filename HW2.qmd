@@ -108,3 +108,9 @@ bench::mark(
   fun2alt(x), relative = TRUE
 )
 ```
+
+# Part 2: Rcpp
+
+```{r}
+Rcpp::sourceCpp("scale_free.cpp")
+```
