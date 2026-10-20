@@ -2,7 +2,7 @@
 
 using namespace Rcpp;
 
-// [[Rcpp::export]]
+// [[Rcpp::export]] 
 
 
 // I couldn't find a way to set seed in cpp, so I will put it in R.
