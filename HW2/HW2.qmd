@@ -1,0 +1,134 @@
+---
+title: "HW2"
+format: pdf
+editor: visual
+---
+
+## Part 1: Vectorizing code
+
+```{r}
+# Question 1.a
+fun1 <- function(n = 100, k = 4, lambda = 4) {
+  x <- NULL
+  
+  for (i in 1:n)
+    x <- rbind(x, rpois(k, lambda))
+  
+  return(x)
+}
+
+# rbind will use a lot more memory than we need, so we have to prespecify its dimension
+fun1alt <- function(n = 100, k = 4, lambda = 4) {
+  x <- matrix(NA, nrow = n, ncol = k)
+  for (i in 1:n)
+    x[i,] <- rpois(k, lambda)
+  return(x)
+}
+
+# Benchmarking
+bench::mark(
+  fun1(),
+  fun1alt(), relative = TRUE, check = FALSE
+)
+```
+
+```{r}
+# Total row sums
+fun1 <- function(mat) {
+  n <- nrow(mat)
+  ans <- double(n) 
+  for (i in 1:n) {
+    ans[i] <- sum(mat[i, ])
+  }
+  ans
+}
+
+# we are doing row sum of matrix, and there is a function that can do it
+fun1alt <- function(mat) {
+  ans <- rowSums(mat)
+  ans
+}
+
+# Cumulative sum by row
+fun2 <- function(mat) {
+  n <- nrow(mat)
+  k <- ncol(mat)
+  ans <- mat
+  for (i in 1:n) {
+    for (j in 2:k) { # for each row
+      ans[i,j] <- mat[i, j] + ans[i, j - 1] #cum sum of all previous cells of this row
+    }
+  }
+  ans
+}
+
+# I know cumsum works on list
+# so I have to apply this to each row of matrix
+fun2alt <- function(mat) {
+  t(apply(mat, 1, cumsum))
+}
+
+# Use the data with this code
+set.seed(2315)
+dat <- matrix(rnorm(200 * 100), nrow = 200)
+
+# Test for the first
+bench::mark(
+  fun1(dat),
+  fun1alt(dat), relative = TRUE
+)
+
+# Test for the second
+bench::mark(
+  fun2(dat),
+  fun2alt(dat), relative = TRUE
+)
+```
+
+```{r}
+# Data Generating Process (10 x 10,000 matrix)
+set.seed(1234)
+x <- matrix(rnorm(1e4), nrow=10)
+
+# Find each column's max value
+fun2 <- function(x) {
+  apply(x, 2, max)
+}
+
+# following the hint, we found that max.col() can only find the max value of each row, but here we want to know that of columns
+# need to use t()
+fun2alt <- function(x) {
+  index <- max.col(t(x)) # index of max value of each column of x(which is row number)
+  x[cbind(index, seq_len(ncol(x)))]
+}
+
+# Benchmarking
+bench::mark(
+  fun2(x),
+  fun2alt(x), relative = TRUE
+)
+```
+
+# Part 2: Rcpp
+
+```{r}
+Rcpp::sourceCpp("scale_free.cpp")
+
+set.seed(3312)
+g <- scale_free(n = 500, m = 2)
+```
+
+```{r}
+## Visualizing the degree distribution
+library(ggplot2)
+data.frame(degree = colSums(g)) |>
+  ggplot(aes(degree)) +
+  geom_histogram() +
+  scale_x_log10() +
+  labs(
+    x = "Degree\n(log10 scale)",
+    y = "Count"
+  )
+```
+
+## AI Disclosure: I first used AI to interpret the assignment requirements and learn the necessary concepts (without explicitly targeting at the questions). I then wrote my own first attempt for both parts and used AI to help debug my code.
